@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  server:
+    build: ./server
+    container_name: container-servidor
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    networks:
+      - host
+  client:
+    build: ./client
+    container_name: container-front
+    ports:
+      - "3000:3000"
+    networks:
+      - host
+  mysql:
+    image: mysql:latest
+    container_name: container-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "africas2lucas"
+      MYSQL_DATABASE: "vendas"
+    ports:
+      - "3307:3306"
+    networks:
+      - host
+    restart: always 
+networks: 
+  host:
+    driver: bridge
